@@ -1,6 +1,19 @@
 @import "svgs-container";
 @import "video-wrap";
 
+// width and height is missing, could be a wonderful image mixin or extend
+.image {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  img {
+    display: block;
+    max-height: 100%;
+    max-width: 100%;
+  }
+}
+
 
 // Classes
 .is-none {
@@ -33,4 +46,46 @@
   white-space: pre-line;
   word-break: break-word;
   word-wrap: break-word;
+}
+
+/*
+  Descriptive and simplified wrapper for @at-root rule
+
+  Example:
+    #logo {
+      @include when-in('#page-header') {
+        margin-left: auto;
+      }
+    }
+
+  Result:
+    #page-header #logo {
+      margin-left: auto;
+    }
+*/
+@mixin when-in($selector: '') {
+  @at-root #{$selector} & {
+    @content;
+  }
+}
+
+/*
+  Extending at-root with passed selector
+
+  Example:
+    .dropdown {
+      @when-part('#language-select') {
+        margin-right: 5px;
+      }
+    }
+
+  Result:
+    .dropdown#language-select {
+      margin-right: 5px;
+    }
+*/
+@mixin when-part($selector: '') {
+  @at-root &#{$selector} {
+    @content;
+  }
 }
